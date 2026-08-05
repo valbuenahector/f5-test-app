@@ -1,0 +1,12 @@
+/* Reset conflicting legacy styles to let Tailwind handle layout */
+body {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    background-color: transparent;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}

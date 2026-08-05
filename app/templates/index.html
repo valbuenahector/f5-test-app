@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}F5 Test App — Client Info{% endblock %}
+{% block content %}
+
+{% if cookie_just_set %}
+<div class="mb-6 border border-[var(--theme-color)] bg-f5gray-100 text-f5black px-4 py-3 rounded-md text-sm">
+    Cookie <code>f5_demo_cookie</code> set. Reload this page to see it echoed back below.
+</div>
+{% endif %}
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div class="border border-f5gray-200 rounded-lg p-5">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-f5gray-500 mb-2">Client IP</h2>
+        <p class="text-2xl font-bold break-all">{{ client.ip }}</p>
+        {% if client.forwarded_for %}
+        <p class="text-xs text-f5gray-500 mt-1">X-Forwarded-For: {{ client.forwarded_for }}</p>
+        {% endif %}
+        {% if client.real_ip %}
+        <p class="text-xs text-f5gray-500 mt-1">X-Real-IP: {{ client.real_ip }}</p>
+        {% endif %}
+    </div>
+    <div class="border border-f5gray-200 rounded-lg p-5">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-f5gray-500 mb-2">Request</h2>
+        <p class="text-sm"><span class="font-semibold">{{ client.method }}</span> {{ client.path }}{% if client.query_string %}?{{ client.query_string }}{% endif %}</p>
+        <p class="text-xs text-f5gray-500 mt-1">{{ client.scheme }}://{{ client.host }}</p>
+        <p class="text-xs text-f5gray-500 mt-1">{{ client.timestamp }}</p>
+    </div>
+</div>
+
+<div class="border border-f5gray-200 rounded-lg p-5 mb-8">
+    <h2 class="text-xs font-bold uppercase tracking-widest text-f5gray-500 mb-3">Headers</h2>
+    <table class="w-full text-sm">
+        <tbody>
+            {% for key, value in client.headers.items() %}
+            <tr class="border-b border-f5gray-100 last:border-0">
+                <td class="py-1.5 pr-4 font-mono text-f5gray-600 whitespace-nowrap align-top">{{ key }}</td>
+                <td class="py-1.5 font-mono break-all">{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="border border-f5gray-200 rounded-lg p-5 mb-8">
+    <h2 class="text-xs font-bold uppercase tracking-widest text-f5gray-500 mb-3">Cookies</h2>
+    {% if client.cookies %}
+    <table class="w-full text-sm">
+        <tbody>
+            {% for key, value in client.cookies.items() %}
+            <tr class="border-b border-f5gray-100 last:border-0">
+                <td class="py-1.5 pr-4 font-mono text-f5gray-600 whitespace-nowrap align-top">{{ key }}</td>
+                <td class="py-1.5 font-mono break-all">{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-sm text-f5gray-500">No cookies sent with this request.</p>
+    {% endif %}
+    <a href="{{ url_for('set_cookie') }}" class="inline-block mt-4 bg-[var(--theme-color)] hover:opacity-90 text-white px-4 py-2 rounded-md text-sm font-bold transition-opacity">Set a demo cookie</a>
+</div>
+
+<div class="border border-f5gray-200 rounded-lg p-5">
+    <h2 class="text-xs font-bold uppercase tracking-widest text-f5gray-500 mb-2">Programmatic access</h2>
+    <p class="text-sm text-f5gray-600">Same data as JSON: <code class="font-mono bg-f5gray-100 px-1.5 py-0.5 rounded">GET /api/whoami</code></p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" style="--theme-color: {{ theme_color }};">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}F5 Test App{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        f5black: '#000000',
+                        f5gray: {
+                            100: '#F1F1F1',
+                            200: '#E1E1E1',
+                            300: '#D1D1D1',
+                            400: '#A1A1A1',
+                            500: '#616161',
+                            600: '#414141',
+                            700: '#313131',
+                            800: '#212121',
+                            900: '#111111',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-f5gray-100 text-f5black font-sans min-h-screen">
+    <div class="max-w-5xl mx-auto flex flex-col min-h-screen shadow-2xl bg-white border-x border-f5gray-200">
+
+        <header class="bg-f5black text-white sticky top-0 z-50 shadow-md">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center space-x-2">
+                        <img src="{{ url_for('static', filename='images/f5-logo-rgb.svg') }}" alt="F5 Logo" class="h-10">
+                        <span class="text-xl font-bold tracking-tight">F5 Test App</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="h-3 w-3 rounded-full inline-block bg-[var(--theme-color)] ring-2 ring-white/30"></span>
+                        <span class="text-sm font-medium text-f5gray-300">Deployment:</span>
+                        <span class="text-sm font-bold uppercase tracking-wide bg-[var(--theme-color)] text-white px-3 py-1 rounded-full">{{ deployment_name }}</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="bg-[var(--theme-color)] text-white py-2 text-center text-sm font-medium tracking-wide">
+            Client Info Echo &mdash; Lab / Test Container
+        </div>
+
+        <main class="flex-grow px-4 sm:px-6 lg:px-8 py-8">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="bg-f5gray-900 text-white py-8">
+            <div class="px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-f5gray-500 text-xs">
+                <p>&copy; 2026 F5 Networks, Inc. &mdash; Internal test tool.</p>
+                <p class="mt-2 md:mt-0">THEME_COLOR / DEPLOYMENT_NAME configurable at container runtime</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

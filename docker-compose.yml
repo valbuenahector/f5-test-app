@@ -1,0 +1,24 @@
+services:
+  dev:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      THEME_COLOR: blue
+      DEPLOYMENT_NAME: dev
+
+  staging:
+    build: .
+    ports:
+      - "8082:8080"
+    environment:
+      THEME_COLOR: orange
+      DEPLOYMENT_NAME: staging
+
+  prod:
+    build: .
+    ports:
+      - "8083:8080"
+    environment:
+      THEME_COLOR: f5red
+      DEPLOYMENT_NAME: prod
